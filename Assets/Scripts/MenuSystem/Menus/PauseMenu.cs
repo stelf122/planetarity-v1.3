@@ -18,14 +18,19 @@ public class PauseMenu : BaseMenu
         _menuButton.onClick.AddListener(MenuClick);
     }
 
+    public void SetSave(bool active)
+    {
+        _saveButton.interactable = active;
+    }
+
     private void MenuClick()
     {
-        throw new NotImplementedException();
+        InputContext.CreateEntity().isMenuClick = true;
     }
 
     private void SaveClick()
     {
-        throw new NotImplementedException();
+        InputContext.CreateEntity().isSaveClick = true;
     }
 
     private void ResumeClick()

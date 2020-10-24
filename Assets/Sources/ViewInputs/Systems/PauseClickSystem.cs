@@ -34,6 +34,8 @@ public class PauseClickSystem : ReactiveSystem<InputEntity>
             pauseMenu.Show();
 
             _gameContext.isPause = true;
+
+            _menuManager.GetMenuByType<PauseMenu>(MenuType.Pause).SetSave(true);
         }
     }
 }

@@ -20,9 +20,12 @@ public class RootSystems : Feature
         Add(new UpdateCooldownSystem(contexts));
         Add(new LaunchAIRocketsSystem(contexts));
         Add(new DestroyPlanetSystem(contexts));
-        Add(new EndGameSystem(contexts));
+        Add(new ClearGameEntitiesSystem(contexts));
+        Add(new CheckPlanetsHealthSystem(contexts));
         Add(new TickSystem(contexts));
         Add(new StopRocketsSystem(contexts));
+        Add(new SaveStateSystem(contexts));
+        Add(new LoadStateSystem(contexts));
         //Add(new SetAIRocketDirection(contexts));
         Add(new SetAIRocketRandomDirection(contexts));
     }

@@ -3,27 +3,21 @@ using System.Collections;
 using Entitas;
 using System.Collections.Generic;
 
-public class EndGameSystem : ReactiveSystem<GameEntity>
+public class CheckPlanetsHealthSystem : ReactiveSystem<GameEntity>
 {
     private Contexts _contexts;
 
     private IGroup<GameEntity> _player;
+
     private IGroup<GameEntity> _enemies;
-    private IGroup<GameEntity> _rockets;
-    private IGroup<InputEntity> _rocketInputs;
 
-    private IMenuManager _menuManager;
-
-    public EndGameSystem(Contexts contexts) : base(contexts.game)
+    public CheckPlanetsHealthSystem(Contexts contexts) : base(contexts.game)
     {
         _contexts = contexts;
 
-        _menuManager = _contexts.game.menuManager.Value;
-
         _player = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Planet, GameMatcher.Player));
+
         _enemies = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Planet).NoneOf(GameMatcher.Player));
-        _rockets = contexts.game.GetGroup(GameMatcher.Rocket);
-        _rocketInputs = contexts.input.GetGroup(InputMatcher.LaunchRocket);
     }
 
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
@@ -49,7 +43,7 @@ public class EndGameSystem : ReactiveSystem<GameEntity>
                 EndGame(true);
             }
             else
-            { 
+            {
                 foreach (var enemy in _enemies)
                 {
                     if (enemy.health.Value > 0) return;
@@ -62,7 +56,9 @@ public class EndGameSystem : ReactiveSystem<GameEntity>
 
     private void EndGame(bool win)
     {
-        var resultMenu = _menuManager.GetMenuByType(MenuType.Result);
+        var menuManager = _contexts.game.menuManager.Value;
+
+        var resultMenu = menuManager.GetMenuByType(MenuType.Result);
 
         var args = new ResultMenuArguments()
         {
@@ -71,32 +67,8 @@ public class EndGameSystem : ReactiveSystem<GameEntity>
 
         resultMenu.Show(args);
 
-        foreach (var e in _player.GetEntities())
-        {
-            GameObject.Destroy(e.planet.Object);
-            GameObject.Destroy(e.planetView.Value.gameObject);
+        menuManager.GetMenuByType(MenuType.Game).Hide();
 
-            e.Destroy();
-        }
-
-        foreach (var e in _enemies.GetEntities())
-        {
-            GameObject.Destroy(e.planet.Object);
-            GameObject.Destroy(e.planetView.Value.gameObject);
-
-            e.Destroy();
-        }
-
-        foreach (var e in _rockets.GetEntities())
-        {
-            GameObject.Destroy(e.rocket.Object);
-
-            e.Destroy();
-        }
-
-        foreach (var e in _rocketInputs.GetEntities())
-        {
-            e.Destroy();
-        }
+        _contexts.game.CreateEntity().isClearGameEntities = true;
     }
 }

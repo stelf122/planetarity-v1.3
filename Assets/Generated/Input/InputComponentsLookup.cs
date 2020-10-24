@@ -8,32 +8,50 @@
 //------------------------------------------------------------------------------
 public static class InputComponentsLookup {
 
-    public const int CooldownChecked = 0;
-    public const int Direction = 1;
-    public const int LaunchRocket = 2;
-    public const int PauseClick = 3;
-    public const int ResumeClick = 4;
-    public const int StartGameClick = 5;
-    public const int StartGame = 6;
+    public const int ClearSaveClick = 0;
+    public const int ContinueClick = 1;
+    public const int CooldownChecked = 2;
+    public const int Direction = 3;
+    public const int LaunchRocket = 4;
+    public const int MenuClick = 5;
+    public const int PauseClick = 6;
+    public const int RestartClick = 7;
+    public const int ResultMenuClick = 8;
+    public const int ResumeClick = 9;
+    public const int SaveClick = 10;
+    public const int StartGameClick = 11;
+    public const int StartGame = 12;
 
-    public const int TotalComponents = 7;
+    public const int TotalComponents = 13;
 
     public static readonly string[] componentNames = {
+        "ClearSaveClick",
+        "ContinueClick",
         "CooldownChecked",
         "Direction",
         "LaunchRocket",
+        "MenuClick",
         "PauseClick",
+        "RestartClick",
+        "ResultMenuClick",
         "ResumeClick",
+        "SaveClick",
         "StartGameClick",
         "StartGame"
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(ClearSaveClickComponent),
+        typeof(ContinueClickComponent),
         typeof(CooldownCheckedComponent),
         typeof(DirectionComponent),
         typeof(LaunchRocketComponent),
+        typeof(MenuClickComponent),
         typeof(PauseClickComponent),
+        typeof(RestartClickComponent),
+        typeof(ResultMenuClickComponent),
         typeof(ResumeClickComponent),
+        typeof(SaveClickComponent),
         typeof(StartGameClickComponent),
         typeof(StartGameComponent)
     };
