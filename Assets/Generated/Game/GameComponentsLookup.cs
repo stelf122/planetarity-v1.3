@@ -10,32 +10,38 @@ public static class GameComponentsLookup {
 
     public const int Collision = 0;
     public const int Cooldown = 1;
-    public const int Health = 2;
-    public const int LifetimeCompleted = 3;
-    public const int Lifetime = 4;
-    public const int MenuController = 5;
-    public const int PhysicsConfig = 6;
-    public const int Planet = 7;
-    public const int PlanetConfig = 8;
-    public const int PlanetView = 9;
-    public const int PlanetViewFactory = 10;
-    public const int Player = 11;
-    public const int Rigidbody = 12;
-    public const int Rocket = 13;
-    public const int RocketConfig = 14;
-    public const int RocketId = 15;
-    public const int Source = 16;
-    public const int Speed = 17;
+    public const int CreatePlanet = 2;
+    public const int Health = 3;
+    public const int LifetimeCompleted = 4;
+    public const int Lifetime = 5;
+    public const int MenuManager = 6;
+    public const int Pause = 7;
+    public const int PhysicsConfig = 8;
+    public const int Planet = 9;
+    public const int PlanetConfig = 10;
+    public const int PlanetView = 11;
+    public const int PlanetViewFactory = 12;
+    public const int Player = 13;
+    public const int Rigidbody = 14;
+    public const int Rocket = 15;
+    public const int RocketConfig = 16;
+    public const int RocketId = 17;
+    public const int Source = 18;
+    public const int Speed = 19;
+    public const int Tick = 20;
+    public const int Velocity = 21;
 
-    public const int TotalComponents = 18;
+    public const int TotalComponents = 22;
 
     public static readonly string[] componentNames = {
         "Collision",
         "Cooldown",
+        "CreatePlanet",
         "Health",
         "LifetimeCompleted",
         "Lifetime",
-        "MenuController",
+        "MenuManager",
+        "Pause",
         "PhysicsConfig",
         "Planet",
         "PlanetConfig",
@@ -47,16 +53,20 @@ public static class GameComponentsLookup {
         "RocketConfig",
         "RocketId",
         "Source",
-        "Speed"
+        "Speed",
+        "Tick",
+        "Velocity"
     };
 
     public static readonly System.Type[] componentTypes = {
         typeof(CollisionComponent),
         typeof(CooldownComponent),
+        typeof(CreatePlanetComponent),
         typeof(HealthComponent),
         typeof(LifetimeCompletedComponent),
         typeof(LifetimeComponent),
-        typeof(MenuControllerComponent),
+        typeof(MenuManagerComponent),
+        typeof(PauseComponent),
         typeof(PhysicsConfigComponent),
         typeof(PlanetComponent),
         typeof(PlanetConfigComponent),
@@ -68,6 +78,8 @@ public static class GameComponentsLookup {
         typeof(RocketConfigComponent),
         typeof(RocketIdComponent),
         typeof(SourceComponent),
-        typeof(SpeedComponent)
+        typeof(SpeedComponent),
+        typeof(TickComponent),
+        typeof(VelocityComponent)
     };
 }

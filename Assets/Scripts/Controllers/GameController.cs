@@ -10,9 +10,11 @@ public class GameController : MonoBehaviour
     private RootSystems _rootSystems;
     private ViewSystems _viewSystems;
 
-    void Start()
+    private void Awake()
     {
         var contexts = Contexts.sharedInstance;
+
+        var menuManager = new MenuManager(contexts);
 
         _globalConfig.Initialize(contexts);
         _hudController.Initialize(contexts);

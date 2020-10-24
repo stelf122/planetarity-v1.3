@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Entitas;
+using System.Collections.Generic;
 
-public class GravitySystem : IExecuteSystem
+public class GravitySystem : ReactiveSystem<GameEntity>
 {
     private Contexts _contexts;
 
     private IGroup<GameEntity> _rockets;
     private IGroup<GameEntity> _rigidbodies;
 
-    public GravitySystem (Contexts contexts)
+    public GravitySystem (Contexts contexts) : base (contexts.game)
     {
         _contexts = contexts;
 
@@ -17,28 +18,41 @@ public class GravitySystem : IExecuteSystem
         _rigidbodies = contexts.game.GetGroup(GameMatcher.Rigidbody);
     }
 
-    public void Execute()
+    protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
     {
-        float gravity = _contexts.game.physicsConfig.Value.Gravity;
+        return context.CreateCollector(GameMatcher.Tick);
+    }
 
-        foreach (var entity in _rockets)
+    protected override bool Filter(GameEntity entity)
+    {
+        return entity.isTick;
+    }
+
+    protected override void Execute(List<GameEntity> entities)
+    {
+        foreach (var e in entities)
         {
-            foreach (var body in _rigidbodies)
+            float gravity = _contexts.game.physicsConfig.Value.Gravity;
+
+            foreach (var entity in _rockets)
             {
-                if (entity.rigidbody == body.rigidbody) continue;
+                foreach (var body in _rigidbodies)
+                {
+                    if (entity.rigidbody == body.rigidbody) continue;
 
-                Rigidbody target = entity.rigidbody.Value;
-                Rigidbody source = body.rigidbody.Value;
+                    Rigidbody target = entity.rigidbody.Value;
+                    Rigidbody source = body.rigidbody.Value;
 
-                Vector3 direction = source.position - target.position;
-                float distance = direction.magnitude;
+                    Vector3 direction = source.position - target.position;
+                    float distance = direction.magnitude;
 
-                float forceMagnitude = gravity * (source.mass * target.mass) / Mathf.Pow(distance, 2);
-                Vector3 force = direction.normalized * forceMagnitude;
+                    float forceMagnitude = gravity * (source.mass * target.mass) / Mathf.Pow(distance, 2);
+                    Vector3 force = direction.normalized * forceMagnitude;
 
-                force = new Vector3(force.x, 0, force.z);
+                    force = new Vector3(force.x, 0, force.z);
 
-                target.AddForce(force);
+                    target.AddForce(force);
+                }
             }
         }
     }

@@ -4,7 +4,7 @@ using Entitas;
 using Entitas.CodeGeneration.Attributes;
 
 [Unique]
-public class MenuControllerComponent : IComponent
+public class MenuManagerComponent : IComponent
 {
-    public MenuController Value;
+    public IMenuManager Value;
 }

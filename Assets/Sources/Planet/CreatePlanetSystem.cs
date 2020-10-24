@@ -3,26 +3,26 @@ using System.Collections;
 using Entitas;
 using System.Collections.Generic;
 
-public class CreatePlanetSystem : ReactiveSystem<InputEntity>
+public class CreatePlanetSystem : ReactiveSystem<GameEntity>
 {
     private Contexts _contexts;
 
-    public CreatePlanetSystem(Contexts contexts) : base(contexts.input)
+    public CreatePlanetSystem(Contexts contexts) : base(contexts.game)
     {
         _contexts = contexts;
     }
 
-    protected override ICollector<InputEntity> GetTrigger(IContext<InputEntity> context)
+    protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
     {
-        return context.CreateCollector(InputMatcher.StartGame);
+        return context.CreateCollector(GameMatcher.CreatePlanet);
     }
 
-    protected override bool Filter(InputEntity entity)
+    protected override bool Filter(GameEntity entity)
     {
-        return entity.isStartGame;
+        return entity.isCreatePlanet;
     }
 
-    protected override void Execute(List<InputEntity> entities)
+    protected override void Execute(List<GameEntity> entities)
     {
         foreach(var e in entities)
         {

@@ -21,6 +21,8 @@ public class RootSystems : Feature
         Add(new LaunchAIRocketsSystem(contexts));
         Add(new DestroyPlanetSystem(contexts));
         Add(new EndGameSystem(contexts));
+        Add(new TickSystem(contexts));
+        Add(new StopRocketsSystem(contexts));
         //Add(new SetAIRocketDirection(contexts));
         Add(new SetAIRocketRandomDirection(contexts));
     }

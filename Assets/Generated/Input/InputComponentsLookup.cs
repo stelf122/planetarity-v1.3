@@ -11,14 +11,20 @@ public static class InputComponentsLookup {
     public const int CooldownChecked = 0;
     public const int Direction = 1;
     public const int LaunchRocket = 2;
-    public const int StartGame = 3;
+    public const int PauseClick = 3;
+    public const int ResumeClick = 4;
+    public const int StartGameClick = 5;
+    public const int StartGame = 6;
 
-    public const int TotalComponents = 4;
+    public const int TotalComponents = 7;
 
     public static readonly string[] componentNames = {
         "CooldownChecked",
         "Direction",
         "LaunchRocket",
+        "PauseClick",
+        "ResumeClick",
+        "StartGameClick",
         "StartGame"
     };
 
@@ -26,6 +32,9 @@ public static class InputComponentsLookup {
         typeof(CooldownCheckedComponent),
         typeof(DirectionComponent),
         typeof(LaunchRocketComponent),
+        typeof(PauseClickComponent),
+        typeof(ResumeClickComponent),
+        typeof(StartGameClickComponent),
         typeof(StartGameComponent)
     };
 }

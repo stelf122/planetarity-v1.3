@@ -12,9 +12,14 @@ public class EndGameSystem : ReactiveSystem<GameEntity>
     private IGroup<GameEntity> _rockets;
     private IGroup<InputEntity> _rocketInputs;
 
+    private IMenuManager _menuManager;
+
     public EndGameSystem(Contexts contexts) : base(contexts.game)
     {
         _contexts = contexts;
+
+        _menuManager = _contexts.game.menuManager.Value;
+
         _player = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Planet, GameMatcher.Player));
         _enemies = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Planet).NoneOf(GameMatcher.Player));
         _rockets = contexts.game.GetGroup(GameMatcher.Rocket);
@@ -57,7 +62,14 @@ public class EndGameSystem : ReactiveSystem<GameEntity>
 
     private void EndGame(bool win)
     {
-        _contexts.game.menuController.Value.ShowMainMenu(win);
+        var resultMenu = _menuManager.GetMenuByType(MenuType.Result);
+
+        var args = new ResultMenuArguments()
+        {
+            Win = win
+        };
+
+        resultMenu.Show(args);
 
         foreach (var e in _player.GetEntities())
         {

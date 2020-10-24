@@ -1,25 +1,41 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Entitas;
+using System.Collections.Generic;
 
-public class LaunchPlayerRocketsSystem : IExecuteSystem
+public class LaunchPlayerRocketsSystem : ReactiveSystem<GameEntity>
 {
     private Contexts _contexts;
-    private IGroup<GameEntity> _entities;
 
-    public LaunchPlayerRocketsSystem(Contexts contexts)
+    private IGroup<GameEntity> _players;
+
+    public LaunchPlayerRocketsSystem(Contexts contexts) : base(contexts.game)
     {
-        _entities = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Player, GameMatcher.Planet));
+        _players = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Player, GameMatcher.Planet));
+
         _contexts = contexts;
     }
 
-    public void Execute()
+    protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
     {
-        if (_entities.count == 0) return;
+        return context.CreateCollector(GameMatcher.Tick);
+    }
 
-        if (Input.GetMouseButtonDown(0))
+    protected override bool Filter(GameEntity entity)
+    {
+        return entity.isTick;
+    }
+
+    protected override void Execute(List<GameEntity> entities)
+    {
+        foreach (var e in entities)
         {
-            _contexts.input.CreateEntity().AddLaunchRocket(_entities.GetSingleEntity());
+            if (_players.count == 0) return;
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                _contexts.input.CreateEntity().AddLaunchRocket(_players.GetSingleEntity());
+            }
         }
     }
 }

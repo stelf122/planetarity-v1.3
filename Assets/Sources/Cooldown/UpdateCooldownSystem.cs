@@ -3,13 +3,13 @@ using System.Collections;
 using Entitas;
 using System.Collections.Generic;
 
-public class RotatePlanetSystem : ReactiveSystem<GameEntity>
+public class UpdateCooldownSystem : ReactiveSystem<GameEntity>
 {
-    private IGroup<GameEntity> _planets;
+    private IGroup<GameEntity> _cooldowns;
 
-    public RotatePlanetSystem(Contexts contexts) : base(contexts.game)
+    public UpdateCooldownSystem(Contexts contexts) : base(contexts.game)
     {
-        _planets = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Planet, GameMatcher.Speed));
+        _cooldowns = contexts.game.GetGroup(GameMatcher.Cooldown);
     }
 
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
@@ -26,9 +26,12 @@ public class RotatePlanetSystem : ReactiveSystem<GameEntity>
     {
         foreach (var e in entities)
         {
-            foreach (var planetEntity in _planets)
+            foreach (var c in _cooldowns)
             {
-                planetEntity.planet.Object.transform.RotateAround(Vector3.zero, Vector3.up, planetEntity.speed.Value * Time.deltaTime);
+                if (c.cooldown.Value > 0)
+                {
+                    c.ReplaceCooldown(c.cooldown.Value - Time.deltaTime);
+                }
             }
         }
     }
