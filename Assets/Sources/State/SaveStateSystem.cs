@@ -34,6 +34,7 @@ public class SaveStateSystem : ReactiveSystem<GameEntity>
                 planetsData.Add(new PlanetData()
                 {
                     Position = planet.planet.Object.transform.position,
+                    Color = planet.planet.Object.GetComponent<MeshRenderer>().material.color,
                     Health = planet.health.Value,
                     IsPlayer = planet.isPlayer
                 });
@@ -61,6 +62,7 @@ public class StateData
 public class PlanetData
 {
     public Vector3 Position;
+    public Color Color;
     public float Health;
     public bool IsPlayer;
 }

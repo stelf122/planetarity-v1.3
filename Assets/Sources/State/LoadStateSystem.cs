@@ -51,6 +51,8 @@ public class LoadStateSystem : ReactiveSystem<GameEntity>
 
         GameObject planetObject = GameObject.Instantiate(planetPrefab);
 
+        planetObject.GetComponent<MeshRenderer>().material.color = planetData.Color;
+
         Rigidbody rigidbody = planetObject.GetComponent<Rigidbody>();
 
         planetObject.transform.position = new Vector3(planetData.Position.x, planetData.Position.y, planetData.Position.z);

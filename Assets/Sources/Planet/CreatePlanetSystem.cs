@@ -53,6 +53,8 @@ public class CreatePlanetSystem : ReactiveSystem<GameEntity>
 
         GameObject planetObject = GameObject.Instantiate(planetPrefab);
 
+        planetObject.GetComponent<MeshRenderer>().material.color = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f), 1f);
+
         Rigidbody rigidbody = planetObject.GetComponent<Rigidbody>();
 
         planetObject.transform.position = new Vector3(position.x, 0, position.y);
